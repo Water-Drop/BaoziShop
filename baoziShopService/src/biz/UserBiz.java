@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -56,7 +55,7 @@ public class UserBiz {
 	}
 	
 	@Path("/addUserInfo")
-	@POST
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)	
 	public String addUserInfo(@QueryParam("uuri")String uuri,@QueryParam("name")String name, @QueryParam("gender")Integer gender,
 			@QueryParam("age")Integer age, @QueryParam("description")String description, @QueryParam("education")String education,
@@ -126,7 +125,7 @@ public class UserBiz {
 	}
 	
 	@Path("/addEnterpriseInfo")
-	@POST
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)	
 	public String addEnterpriseInfo(@QueryParam("uuri")String uuri,@QueryParam("name")String name, @QueryParam("address")String address,
 			@QueryParam("description")String description, @QueryParam("registered_capital")Integer registered_capital,

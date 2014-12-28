@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -21,7 +21,7 @@ public class Account {
 	@Context HttpServletRequest req; 
 	
 	@Path("/login")
-	@POST
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)	
 	public String login(@QueryParam("username")String username, @QueryParam("password")String password){
 		Integer status = -1;
@@ -51,7 +51,7 @@ public class Account {
 		return json.toString();
 	}
 	@Path("/register")
-	@POST
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)	
 	public String register(@QueryParam("username")String username, @QueryParam("password")String password,
 			@QueryParam("email")String email, @QueryParam("type")String type){
