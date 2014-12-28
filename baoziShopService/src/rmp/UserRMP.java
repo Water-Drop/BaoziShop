@@ -113,9 +113,9 @@ public class UserRMP {
 		return 0;
 	}
 	
-	public UserInfo getUserInfoByUsername(String username){
+	public UserInfo getUserInfoByUser(String uuri){
 		UserInfo ret = null;
-		String url = domain + "baoziShop/UserInfo/?UserInfo.User.username=" + username;
+		String url = domain + "baoziShop/UserInfo/?UserInfo.User.id=" + uuri.replaceAll("baozishop/Uf91ef4c34394c_baoziShop_User/", "");
 		String resultXML = HttpHelper.SendHttpRequest("get", url, null);
 		List<UserInfo> uis = UserInfo.parseXML(resultXML);
 		if (uis.size() == 0)
@@ -127,9 +127,9 @@ public class UserRMP {
 		return ret;
 	}
 	
-	public EnterpriseInfo getEnterpriseInfoByUsername(String username){
+	public EnterpriseInfo getEnterpriseInfoByUser(String uuri){
 		EnterpriseInfo ret = null;
-		String url = domain + "baoziShop/EnterpriseInfo/?EnterpriseInfo.User.username=" + username;
+		String url = domain + "baoziShop/EnterpriseInfo/?EnterpriseInfo.User.id=" + uuri.replaceAll("baozishop/Uf91ef4c34394c_baoziShop_User/", "");
 		String resultXML = HttpHelper.SendHttpRequest("get", url, null);
 		List<EnterpriseInfo> eis = EnterpriseInfo.parseXML(resultXML);
 		if (eis.size() == 0)

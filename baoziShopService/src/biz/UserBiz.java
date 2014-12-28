@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import model.EnterpriseInfo;
 import model.UserInfo;
 import net.sf.json.JSONObject;
 import rmp.UserRMP;
@@ -20,11 +21,11 @@ public class UserBiz {
 	@Path("/getUserinfoByUsername")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)	
-	public String getUserinfoByUsername(@QueryParam("username")String username){
+	public String getUserinfoByUser(@QueryParam("uuri")String uuri){
 		Integer status = -1;
 		Map<String, String> map = new HashMap<String, String>();
 		try {
-			UserInfo ui = ur.getUserInfoByUsername(username);
+			UserInfo ui = ur.getUserInfoByUser(uuri);
 			if (null != ui){
 				status = 0;
 				map.put("uri", ui.getUri());
@@ -44,7 +45,7 @@ public class UserBiz {
 				map.put("location", ui.getLocation());
 				map.put("head_img", ui.getHead_img());
 			} else {
-				status = 1;//no such userinfo
+				status = 1;//no such user info
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -84,6 +85,65 @@ public class UserBiz {
 			ui.setLocation(location);
 			ui.setHead_img(head_img);
 			rtn = ur.addUserInfo(ui);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("rtn", rtn.toString());
+		JSONObject json = JSONObject.fromObject(map);
+		return json.toString();
+	}
+	
+	@Path("/getEnterpriseInfoByUser")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)	
+	public String getEnterpriseInfoByUser(@QueryParam("uuri")String uuri){
+		Integer status = -1;
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			EnterpriseInfo ei = ur.getEnterpriseInfoByUser(uuri);
+			if (null != ei){
+				status = 0;
+				map.put("uri", ei.getUri());
+				map.put("user_uri", ei.getUuri());
+				map.put("name", ei.getName());
+				map.put("address", ei.getAddress());
+				map.put("description", ei.getDescription());
+				map.put("registered_capital", ei.getRegistered_capital().toString());
+				map.put("employee_num", ei.getEmployee_num().toString());
+				map.put("Phone", ei.getPhone());
+				map.put("main_business", ei.getMain_business());
+				map.put("home_page", ei.getHome_page());
+			} else {
+				status = 1;//no such enterprise info
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		map.put("status", status.toString());
+		JSONObject json = JSONObject.fromObject(map);
+		return json.toString();
+	}
+	
+	@Path("/addEnterpriseInfo")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)	
+	public String addEnterpriseInfo(@QueryParam("uuri")String uuri,@QueryParam("name")String name, @QueryParam("address")String address,
+			@QueryParam("description")String description, @QueryParam("registered_capital")Integer registered_capital,
+			@QueryParam("employee_num")Integer employee_num, @QueryParam("phone")String phone, @QueryParam("main_business")String main_business,
+			@QueryParam("home_page")String home_page){
+		Integer rtn = -1;
+		try {
+			EnterpriseInfo ei = new EnterpriseInfo();
+			ei.setUuri(uuri);
+			ei.setName(name);
+			ei.setAddress(address);
+			ei.setRegistered_capital(registered_capital);
+			ei.setEmployee_num(employee_num);
+			ei.setPhone(phone);
+			ei.setMain_business(main_business);
+			ei.setHome_page(home_page);
+			rtn = ur.addEnterpriseInfo(ei);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
