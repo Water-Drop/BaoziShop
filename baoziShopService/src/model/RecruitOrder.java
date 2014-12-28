@@ -1,6 +1,15 @@
 package model;
 
+import java.io.StringReader;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
+import org.xml.sax.InputSource;
 
 public class RecruitOrder {
 	private String uri;
@@ -16,6 +25,7 @@ public class RecruitOrder {
 	private String job_info;//工作信息，候选人简历提交至公司时，发送给候选人
 	private Integer accept_count;//已录取的人数
 	private String location;//位置
+	private String euri;//enterprise info uri
 	public String getUri() {
 		return uri;
 	}
@@ -93,5 +103,75 @@ public class RecruitOrder {
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public String getEuri() {
+		return euri;
+	}
+	public void setEuri(String euri) {
+		this.euri = euri;
+	}
+	static public List<RecruitOrder> parseXML(String xml)
+	{
+		List<RecruitOrder> ret = new ArrayList<RecruitOrder>();
+		try {
+			StringReader read = new StringReader(xml);
+			InputSource inputSource = new InputSource(read);
+			SAXBuilder builder = new SAXBuilder();
+	        Document doc = builder.build(inputSource);
+	        Element collection = doc.getRootElement();
+	        List<Element> roList = collection.getChildren("Uf91ef4c34394c_baoziShop_RecruitOrder");
+	        for(int i = 0, j = roList.size();i < j; i++)  
+	        {
+	        	Element roE = roList.get(i);
+	        	Element roUri = roE.getChild("uri");	
+	        	Element roCT = roE.getChild("creat_time");
+	        	Element roHC = roE.getChild("head_count");
+	        	Element roCC = roE.getChild("candidate_count");
+	        	Element roPrice = roE.getChild("price");
+	        	Element roP = roE.getChild("position");
+	        	Element roS = roE.getChild("salary");
+	        	Element roRI = roE.getChild("recruit_info");
+	        	Element roAI = roE.getChild("audit_info");
+	        	Element roII = roE.getChild("interview_info");
+	        	Element roJI = roE.getChild("job_info");
+	        	Element roAC = roE.getChild("accept_count");
+	        	Element roL = roE.getChild("location");
+	        	Element roEUri = roE.getChild("EnterpriseInfo").getChild("uri");
+	        	RecruitOrder roM = new RecruitOrder();
+	        	roM.setUri(roUri.getText());
+	        	roM.setEuri(roEUri.getText());
+	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+	        	roM.setCreate_time(sdf.parse(roCT.getText()));
+	        	roM.setHead_count(Integer.parseInt(roHC.getText()));
+	        	roM.setCandidate_count(Integer.parseInt(roCC.getText()));
+	        	roM.setPrice(Integer.parseInt(roPrice.getText()));
+	        	if (roP != null){
+	        		roM.setPosition(roP.getText());
+	        	}
+	        	if (roS != null){
+	        		roM.setSalary(roS.getText());
+	        	}
+	        	if (roRI != null){
+	        		roM.setRecruit_info(roRI.getText());
+	        	}
+	        	if (roAI != null){
+	        		roM.setAudit_info(roAI.getText());
+	        	}
+	        	if (roII != null){
+	        		roM.setInterview_info(roII.getText());
+	        	}
+	        	if (roJI != null){
+	        		roM.setJob_info(roJI.getText());
+	        	}
+	        	roM.setAccept_count((Integer.parseInt(roAC.getText())));
+	        	if (roL != null){
+	        		roM.setLocation(roL.getText());
+	        	}
+	        	ret.add(roM);
+	        }
+		} catch (Exception e) {
+			// do nothing
+		}
+	    return ret;
 	}
 }
