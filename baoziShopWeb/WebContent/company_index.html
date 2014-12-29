@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>BaoziShop|首页</title>
+<meta charset="UTF-8">
+<link rel="icon" href="images/logo.png">
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/slider.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/modernizr.custom.28468.js"></script>
+<script type="text/javascript" src="js/jquery.cslider.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#da-slider').cslider({
+			autoplay : true,
+			bgincrement : 450
+		});
+
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#s_search").click(function(){
+			if ($("#s_keyword").val() == "" || $("#s_keyword").val() == "关键字"){
+	   	    	window.open("http://www.baidu.com");
+	       	}else{
+				window.open("http://www.baidu.com/s?word="+$("#s_keyword").val());
+			}
+		});
+	});
+</script>
+
+<link rel="stylesheet" href="fonts/css/font-awesome.min.css">
+</head>
+<body>
+<div class="header_bg">
+<div class="container">
+	<div class="row header">
+		<div class="logo navbar-left">
+			<h1><a href="company_index.html">BaoZi Shop</a></h1>
+		</div>
+		<div class="h_search navbar-right">
+			<form>
+				<input type="text" class="text" value="关键字" id="s_keyword" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '关键字';}">
+				<input type="submit" id="s_search" value="搜索">
+			</form>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+</div>
+<div class="container">
+	<div class="row h_menu">
+		<nav class="navbar navbar-default navbar-left" role="navigation">
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav">
+		        <li><a style="font-size:16px;" href="company_index.html">首页</a></li>
+		        <li><a style="font-size:16px;" href="company_publish.html">发布招聘</a></li>
+		        <li><a style="font-size:16px;" href="company_list.html">进行中的招聘</a></li>
+		      </ul>
+		    </div>
+		</nav>
+		<div class="soc_icons navbar-right">
+			<ul class="list-unstyled text-center">
+				<li class="active"><a href="company_information.html"><i class="fa fa-user"></i></a></li>
+			</ul>	
+		</div>
+	</div>
+</div>
+
+
+<div class="slider_bg"><!-- start slider -->
+	<div class="container">
+		<div id="da-slider" class="da-slider text-center">
+			<div class="da-slide">
+				<h2>个性化的招聘信息发布</h2>
+				<p class="para">BaoziShop隶属于SJTU人力资源有限公司，是国家注册商标，上海猎头品牌，提供中高端人才猎聘服务，是国内人力资源综合服务机构！我们提供了优质的个性化招聘信息发布服务！</p>
+				<h3 class="da-link"><a href="company_publish.html" class="fa-btn btn-1 btn-1e">立即体验</a></h3>
+			</div>
+			<div class="da-slide">
+				<h2>优化的招聘流程</h2>
+				<p class="para">BaoziShop隶属于SJTU人力资源有限公司，是国家注册商标，上海猎头品牌，提供中高端人才猎聘服务，是国内人力资源综合服务机构！我们提供了优化的招聘流程！</p>
+				<h3 class="da-link"><a href="company_list.html" class="fa-btn btn-1 btn-1e">立即体验</a></h3>
+			</div>
+	   </div>
+	</div>
+</div><!-- end slider -->
+
+<div class="footer_bg">
+	<div class="container">
+		<div class="row  footer">
+			<div class="copy text-center">
+				<p class="link"><span>Copyright &copy; 2014.BaoziShop All rights reserved.</span></p>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

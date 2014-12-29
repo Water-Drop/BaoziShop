@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>BaoziShop|企业账号信息</title>
+<meta charset="UTF-8">
+<link rel="icon" href="images/logo.png">
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/slider.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="js/jquery.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		checklogin();
+		getInfo();
+		
+		$("#s_search").click(function(){
+			if ($("#s_keyword").val() == "" || $("#s_keyword").val() == "关键字"){
+	   	    	window.open("http://www.baidu.com");
+	       	}else{
+				window.open("http://www.baidu.com/s?word="+$("#s_keyword").val());
+			}
+		});
+		
+		$("#button").click(function(){
+		       addInfo($("#name").val(),$("#address").val(),$("#description").val(),$("#registered_capital").val(),$("#employee_num").val(),$("#phone").val(),$("#main_business").val(),$("#home_page").val());  
+		});
+	});
+	
+	function checklogin(){
+	    $.ajax( {
+	        type : "POST",
+	        url : "CheckLogin",
+	        data : {},
+	        dataType : "json",
+	        success:function(data){
+	        	if(data.msg != 0){
+	        		window.location.href = "company_login.html";
+	        	}
+	        },
+	        error: function(data){
+	            return false;
+	        }
+	    });
+	}
+	
+	function getInfo(){
+	    $.ajax( {
+	        type : "POST",
+	        url : "GetEnterpriseInfo",
+	        data : {},
+	        dataType : "json",
+	        success:function(data){
+	        	if(data.status == 0){
+	        		$("#name").val(data.name);
+	        		$("#address").val(data.address);
+	        		$("#description").text(data.description);
+	        		$("#registered_capital").val(data.registered_capital);
+	        		$("#employee_num").val(data.employee_num);
+	        		$("#phone").val(data.Phone);
+	        		$("#main_business").val(data.main_business);
+	        		$("#home_page").val(data.home_page);
+	        	}
+	        },
+	        error: function(data){
+	            return false;
+	        }
+	    });
+	}
+	
+	function addInfo(name,address,description,registered_capital,employee_num,phone,main_business,home_page){
+	    $.ajax( {
+	        type : "POST",
+	        url : "AddEnterpriseInfo",
+	        data : {"name":name,"address":address,"description":description,"registered_capital":registered_capital,"employee_num":employee_num,"phone":phone,"main_business":main_business,"home_page":home_page},
+	        dataType : "json",
+	        success:function(data){
+	        	if(data.msg == 0){
+	        		window.location.href = "company_information.html";
+	        	}
+	        },
+	        error: function(data){
+	            return false;
+	        }
+	    });
+	}
+</script>
+
+<link rel="stylesheet" href="fonts/css/font-awesome.min.css">
+</head>
+<body>
+<div class="header_bg">
+<div class="container">
+	<div class="row header">
+		<div class="logo navbar-left">
+			<h1><a href="company_index.html">BaoZi Shop</a></h1>
+		</div>
+		<div class="h_search navbar-right">
+			<form>
+				<input type="text" class="text" value="关键字" id="s_keyword" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '关键字';}">
+				<input type="submit" id="s_search" value="搜索">
+			</form>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+</div>
+<div class="container">
+	<div class="row h_menu">
+		<nav class="navbar navbar-default navbar-left" role="navigation">
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav">
+		        <li><a style="font-size:16px;" href="company_index.html">首页</a></li>
+		        <li><a style="font-size:16px;" href="company_publish.html">发布招聘</a></li>
+		        <li><a style="font-size:16px;" href="company_list.html">进行中的招聘</a></li>
+		      </ul>
+		    </div>
+		</nav>
+		<div class="soc_icons navbar-right">
+			<ul class="list-unstyled text-center">
+				<li><a href="company_information.html"><i class="fa fa-user"></i></a></li>
+				<li><a href="Logout"><i class="fa fa-power-off"></i></a></li>
+			</ul>	
+		</div>
+	</div>
+</div>
+
+
+<div class="main_btm"><!-- start main_btm -->
+	<div class="container">
+		<div class="main row">
+			<div class="col-md-6 content_left">
+				<img src="images/pic1.jpg" alt="" class="img-responsive">
+			</div>
+			<div class="col-md-6 content_right">
+				<div class="contact-form">
+				  	<h2 align="center">企业基本信息</h2>
+						    <div>
+						    	<span>公司名称</span>
+						    	<span><input type="text" class="form-control" id="name"></span>
+						    </div>
+						    <div>
+						    	<span>公司地址</span>
+						    	<span><input type="text" class="form-control" id="address"></span>
+						    </div>
+						    <div>
+						    	<span>基本资料</span>
+						    	<span><textarea style=" font-size:16px; color:#666"id="description" name="description"> </textarea></span>
+						    </div>
+						    <div>
+						    	<span>注册资本</span>
+						    	<span><input type="text" class="form-control" id="registered_capital"></span>
+						    </div>
+						    <div>
+						    	<span>员工人数</span>
+						    	<span><input type="text" class="form-control" id="employee_num"></span>
+						    </div>
+						    <div>
+						    	<span>联系方式</span>
+						    	<span><input type="text" class="form-control" id="phone"></span>
+						    </div>
+						    <div>
+						    	<span>主营业务</span>
+						    	<span><input type="text" class="form-control" id="main_business"></span>
+						    </div>
+						    <div>
+						    	<span>公司主页</span>
+						    	<span><input type="text" class="form-control" id="home_page"></span>
+						    </div>
+						   <div style="text-align:center">
+						   		<label class="fa-btn btn-1 btn-1e"><input type="submit" id="button" value="提交审核"></label>
+						   </div>
+				    </div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="footer_bg">
+	<div class="container">
+		<div class="row  footer">
+			<div class="copy text-center">
+				<p class="link"><span>Copyright &copy; 2014.BaoziShop All rights reserved.</span></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

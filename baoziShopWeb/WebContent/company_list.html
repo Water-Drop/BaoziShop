@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>BaoziShop|进行中的招聘</title>
+<meta charset="UTF-8">
+<link rel="icon" href="images/logo.png">
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/slider.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="js/jquery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	checklogin();
+	list();
+	
+	$("#s_search").click(function(){
+		if ($("#s_keyword").val() == "" || $("#s_keyword").val() == "关键字"){
+   	    	window.open("http://www.baidu.com");
+       	}else{
+			window.open("http://www.baidu.com/s?word="+$("#s_keyword").val());
+		}
+	});
+});
+
+function checklogin(){
+    $.ajax( {
+        type : "POST",
+        url : "CheckLogin",
+        data : {},
+        dataType : "json",
+        success:function(data){
+        	if(data.msg != 0){
+        		window.location.href = "company_login.html";
+        	}
+        },
+        error: function(data){
+            return false;
+        }
+    });
+}
+
+function list(){
+    $.ajax( {
+        type : "POST",
+        url : "GetRecruitOrders",
+        data : {},
+        dataType : "json",
+        success:function(data){
+        		$.each(data,function(i){
+              	  var str = "<h3>职位："+data[i].position+"</h3><div class=\"blog_list\"><ul class=\"list-unstyled\">"
+  					+ "<li><i class=\"fa fa-calendar-o\"></i><span>发布时间:"+data[i].create_time+"</span></li>"
+  					+"<li><i class=\"fa fa-money\"></i><span>薪水:"+data[i].salary+"</span></li>"
+  			  		+"<li><i class=\"fa fa-user\"></i><span>招聘人数:"+data[i].head_count+"</span></li>"
+  			  		+"<li><span>候选人数:"+data[i].candidate_count+"</span></li>"
+  			  		+"<li><span>接受人数:"+data[i].accept_count+"</span></li></ul></div>"
+  			        +"<p class=\"para\">招聘信息:"+data[i].recruit_info+"</p>"
+  			        +"<p class=\"para\">审核信息:"+data[i].audit_info+"</p>"
+  			        +"<p class=\"para\">面试信息:"+data[i].interview_info+"</p>"
+  			        +"<p class=\"para\">工作信息:"+data[i].job_info+"</p>"
+  			        +"<p class=\"para\">工作地点:"+data[i].location+"</p>"
+  			        +"<div class=\"read_more\"><a href=\"company_people.html\" class=\"fa-btn btn-1 btn-1e\">确认录取信息</a></div><br>";
+          		  $("#orderlist").append(str);
+               });
+        	
+        },
+        error: function(data){
+        	alert(data);
+            return false;
+        }
+    });
+}
+
+</script>
+
+<link rel="stylesheet" href="fonts/css/font-awesome.min.css">
+</head>
+<body>
+<div class="header_bg">
+<div class="container">
+	<div class="row header">
+		<div class="logo navbar-left">
+			<h1><a href="company_index.html">BaoZi Shop</a></h1>
+		</div>
+		<div class="h_search navbar-right">
+			<form>
+				<input type="text" class="text" value="关键字" id="s_keyword" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '关键字';}">
+				<input type="submit" id="s_search" value="搜索">
+			</form>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+</div>
+<div class="container">
+	<div class="row h_menu">
+		<nav class="navbar navbar-default navbar-left" role="navigation">
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav">
+		        <li><a style="font-size:16px;" href="company_index.html">首页</a></li>
+		        <li><a style="font-size:16px;" href="company_publish.html">发布招聘</a></li>
+		        <li class="active"><a style="font-size:16px;" href="company_list.html">进行中的招聘</a></li>
+		      </ul>
+		    </div>
+		</nav>
+		<div class="soc_icons navbar-right">
+			<ul class="list-unstyled text-center">
+				<li><a href="company_information.html"><i class="fa fa-user"></i></a></li>
+				<li><a href="Logout"><i class="fa fa-power-off"></i></a></li>
+			</ul>	
+		</div>
+	</div>
+</div>
+
+
+<div class="main_bg"><!-- start main -->
+	<div class="container">
+		<div class="main row">
+			<div class="col-md-6 content_left" id="orderlist">
+				
+
+			</div>
+			<div class="col-md-6 content_right">
+				<img src="images/pic2.jpg" alt="" class="img-responsive">
+			</div>
+
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div><!-- end main -->
+
+<div class="footer_bg">
+	<div class="container">
+		<div class="row  footer">
+			<div class="copy text-center">
+				<p class="link"><span>Copyright &copy; 2014.BaoziShop All rights reserved.</span></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
