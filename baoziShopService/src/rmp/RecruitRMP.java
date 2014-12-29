@@ -24,11 +24,12 @@ public class RecruitRMP {
 		xp.add("set", "this.audit_info", ro.getAudit_info());
 		xp.add("set", "this.interview_info", ro.getInterview_info());
 		xp.add("set", "this.job_info", ro.getJob_info());
-		xp.add("set", "this.head_count", ro.getAccept_count() == null? "0":ro.getAccept_count().toString());
+		xp.add("set", "this.accept_count", ro.getAccept_count() == null? "0":ro.getAccept_count().toString());
 		xp.add("set", "this.location", ro.getLocation());
-		xp.add("set", "this.EnterpriseInfo", ro.getEuri());
+		xp.add("set", "this.EnterpriseInfo", "Uf91ef4c34394c/" + ro.getEuri());
 		String xmlBody = xp.getXML();
 		String url = domain + "baoziShop/RecruitOrder/";
+		System.out.println(xmlBody.toString());
 		String resultXML = HttpHelper.SendHttpRequest("post", url, xmlBody);
 		System.out.println(resultXML);
 		return 0;
@@ -37,6 +38,8 @@ public class RecruitRMP {
 		List<RecruitOrder> ros = new ArrayList<RecruitOrder>();
 		String url = domain + "baoziShop/RecruitOrder/?RecruitOrder.EnterpriseInfo.id=" + euri.replaceAll("baozishop/Uf91ef4c34394c_baoziShop_EnterpriseInfo/", "");
 		String resultXML = HttpHelper.SendHttpRequest("get", url, null);
+		System.out.println(url);
+		System.out.println(resultXML);
 		ros = RecruitOrder.parseXML(resultXML);
 		return ros;
 	}

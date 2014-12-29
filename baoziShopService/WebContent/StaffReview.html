@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+
+function pass() {
+	alert("pass success!");
+	document.getElementById("td1").innerHTML="Enterprise Process";
+	document.getElementById("td2").innerHTML="     ";
+	}
+</script>
+<p>Staff Review Pages</p>
+<table>
+<thead><tr><th>Name</th><th>Gender</th><th>Education</th><th>Status</th><th></th></tr></thead>
+<tr><td>Lihang Gong</td><td>Male</td><td>Master</td><td id="td1">Staff Process</td><td id="td2">
+<button onclick="pass()">Pass</button><button>Fail</button></td></tr>
+<tr><td>Ziyue Su</td><td>Female</td><td>PhD</td><td>Enterprise Process</td><td>
+</td></tr>
+<tr><td>Cheng Zhou</td><td>Female</td><td>Master</td><td>Enterprise Accepted!</td><td>
+</td></tr>
+</table>
+</body>
+</html>

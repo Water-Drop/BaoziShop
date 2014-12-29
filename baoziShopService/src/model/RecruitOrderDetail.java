@@ -1,5 +1,14 @@
 package model;
 
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
+import org.xml.sax.InputSource;
+
 public class RecruitOrderDetail {
 	private String uri;
 	private String uuri;//userinfo uri
@@ -42,5 +51,38 @@ public class RecruitOrderDetail {
 	}
 	public void setInvite_type(Integer invite_type) {
 		this.invite_type = invite_type;
+	}
+	static public List<RecruitOrderDetail> parseXML(String xml)
+	{
+		List<RecruitOrderDetail> ret = new ArrayList<RecruitOrderDetail>();
+		try {
+			StringReader read = new StringReader(xml);
+			InputSource inputSource = new InputSource(read);
+			SAXBuilder builder = new SAXBuilder();
+	        Document doc = builder.build(inputSource);
+	        Element collection = doc.getRootElement();
+	        List<Element> rodList = collection.getChildren("Uf91ef4c34394c_baoziShop_RecruitOrderDetail");
+	        for(int i = 0, j = rodList.size();i < j; i++)  
+	        {
+	        	Element rodE = rodList.get(i);
+	        	Element rodUri = rodE.getChild("uri");	
+	        	Element rodAuT = rodE.getChild("audit_type");
+	        	Element rodAcT = rodE.getChild("accept_type");
+	        	Element rodIT = rodE.getChild("invite_type");
+	        	Element rodUUri = rodE.getChild("UserInfo").getChild("uri");
+	          	Element rodRUri = rodE.getChild("RecruitOrder").getChild("uri");
+	        	RecruitOrderDetail rodM = new RecruitOrderDetail();
+	        	rodM.setUri(rodUri.getText());
+	        	rodM.setUuri(rodUUri.getText());
+	        	rodM.setRuri(rodRUri.getText());
+	        	rodM.setAudit_type(Integer.parseInt(rodAuT.getText()));
+	        	rodM.setAccept_type(Integer.parseInt(rodAcT.getText()));
+	        	rodM.setInvite_type(Integer.parseInt(rodIT.getText()));
+	        	ret.add(rodM);
+	        }
+		} catch (Exception e) {
+			// do nothing
+		}
+	    return ret;
 	}
 }

@@ -124,7 +124,7 @@ public class RecruitOrder {
 	        {
 	        	Element roE = roList.get(i);
 	        	Element roUri = roE.getChild("uri");	
-	        	Element roCT = roE.getChild("creat_time");
+	        	Element roCT = roE.getChild("create_time");
 	        	Element roHC = roE.getChild("head_count");
 	        	Element roCC = roE.getChild("candidate_count");
 	        	Element roPrice = roE.getChild("price");
@@ -140,7 +140,7 @@ public class RecruitOrder {
 	        	RecruitOrder roM = new RecruitOrder();
 	        	roM.setUri(roUri.getText());
 	        	roM.setEuri(roEUri.getText());
-	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	        	roM.setCreate_time(sdf.parse(roCT.getText()));
 	        	roM.setHead_count(Integer.parseInt(roHC.getText()));
 	        	roM.setCandidate_count(Integer.parseInt(roCC.getText()));
@@ -170,6 +170,7 @@ public class RecruitOrder {
 	        	ret.add(roM);
 	        }
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			// do nothing
 		}
 	    return ret;

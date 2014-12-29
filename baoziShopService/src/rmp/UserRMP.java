@@ -1,6 +1,7 @@
 package rmp;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -160,10 +161,18 @@ public class UserRMP {
 			xp.add("set", "this.home_page", ei.getHome_page());
 			xp.add("set", "this.User", "Uf91ef4c34394c/" + ei.getUuri());
 			String xmlBody = xp.getXML();
-			String put_url = domain + "baoziShop/EnterpriseInfo/" + eis.get(0).getUri();
+			String put_url = domain + "baoziShop/EnterpriseInfo/" + eis.get(0).getUri().replaceAll("baozishop/Uf91ef4c34394c_baoziShop_EnterpriseInfo/", "");
 			String put_resultXML = HttpHelper.SendHttpRequest("put", put_url, xmlBody);
 			System.out.println(put_resultXML);
 			return 0;
 		}
+	}
+	
+	public List<UserInfo> getAllUserInfoes(){
+		List<UserInfo> uis = new ArrayList<UserInfo>();
+		String url = domain + "baoziShop/UserInfo";
+		String resultXML = HttpHelper.SendHttpRequest("get", url, null);
+		uis = UserInfo.parseXML(resultXML);
+		return uis;
 	}
 }

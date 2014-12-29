@@ -1,6 +1,8 @@
 package biz;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -13,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 
 import model.EnterpriseInfo;
 import model.UserInfo;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import rmp.UserRMP;
 
@@ -164,6 +167,52 @@ public class UserBiz {
 		}
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("rtn", rtn.toString());
+		JSONObject json = JSONObject.fromObject(map);
+		return json.toString();
+	}
+	
+	@Path("/getAllUserInfoes")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getAllUserInfoes(){
+		Integer status = -1;
+		List<UserInfo> uis = new ArrayList<UserInfo>();
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			uis = ur.getAllUserInfoes();
+			if (uis.size() > 0){
+				status = 0;
+				List<String> ui_jsons = new ArrayList<String>();
+				for (int i = 0; i < uis.size(); i++){
+					Map<String, String> ui_map = new HashMap<String, String>();
+					ui_map.put("uri", uis.get(i).getUri());
+					ui_map.put("user_uri", uis.get(i).getUuri());
+					ui_map.put("name", uis.get(i).getName());
+					ui_map.put("gender", uis.get(i).getGender().toString());
+					ui_map.put("description", uis.get(i).getDescription());
+					ui_map.put("education", uis.get(i).getEducation());
+					ui_map.put("graduate_school", uis.get(i).getGraduate_school());
+					ui_map.put("service_year", uis.get(i).getService_year().toString());
+					ui_map.put("salary_before", uis.get(i).getSalary_before().toString());
+					ui_map.put("salary_expect", uis.get(i).getSalary_expect().toString());
+					ui_map.put("domain", uis.get(i).getDomain().toString());
+					ui_map.put("Phone", uis.get(i).getPhone());
+					ui_map.put("service_experience", uis.get(i).getService_experience());
+					ui_map.put("expect_type", uis.get(i).getExpect_type().toString());
+					ui_map.put("location", uis.get(i).getLocation());
+					ui_map.put("head_img", uis.get(i).getHead_img());
+					JSONObject ro_json = JSONObject.fromObject(ui_map);
+					ui_jsons.add(ro_json.toString());
+				}
+				JSONArray jsonArray = JSONArray.fromObject(ui_jsons);
+				map.put("UserInfoes", jsonArray.toString());
+			} else {
+				status = 1;//no such recruit order
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		map.put("status", status.toString());
 		JSONObject json = JSONObject.fromObject(map);
 		return json.toString();
 	}
