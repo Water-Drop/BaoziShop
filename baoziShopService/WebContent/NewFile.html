@@ -5,6 +5,35 @@
 <title>Insert title here</title>
 </head>
 <body>
+<button onclick="a()"></button>
+<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+<script type="text/javascript">
+
+function a() {
+	alert("aaaaaa!!!");
+	
+	 $.ajax({  
+         url: "http://localhost:8080/baoziShopService/services/account/login",  
+         type: "POST",  
+         dataType: "json",  
+         contentType: "application/json; charset=utf-8",  
+         data: "{username:'test',password:'123456'}",
+         beforeSend: function(x) {  
+             x.setRequestHeader("Content-Type", "application/json; charset=utf-8");  
+         },  
+         success: function(json) {  
+             alert(json.status);  
+         },  
+         error: function(x, e) {  
+        	 alert(2);
+             alert(x.responseText);  
+         },  
+         complete: function(x) {  
+             alert(x.responseText);  
+         }  
+     });  
+	}
+	</script>
 <p>Hello World!</p>
 </body>
 </html>
