@@ -140,4 +140,30 @@ public class UserRMP {
 		}
 		return ret;
 	}
+	
+	public Integer updateEnterpriseInfoByUser(String uuri, EnterpriseInfo ei){
+		String url = domain + "baoziShop/EnterpriseInfo/?EnterpriseInfo.User.id=" + uuri.replaceAll("baozishop/Uf91ef4c34394c_baoziShop_User/", "");
+		String resultXML = HttpHelper.SendHttpRequest("get", url, null);
+		List<EnterpriseInfo> eis = EnterpriseInfo.parseXML(resultXML);
+		if (eis.size() == 0)
+			return 1;//no enterprise info before
+		else
+		{
+			XMLParser xp = new XMLParser("put");
+			xp.add("set", "this.name", ei.getName());
+			xp.add("set", "this.address", ei.getAddress());
+			xp.add("set", "this.description", ei.getDescription());
+			xp.add("set", "this.registered_capital", ei.getRegistered_capital() == null? "0":ei.getRegistered_capital().toString());
+			xp.add("set", "this.employee_num", ei.getEmployee_num() == null? "0":ei.getEmployee_num().toString());
+			xp.add("set", "this.phone", ei.getPhone());
+			xp.add("set", "this.main_business", ei.getMain_business());
+			xp.add("set", "this.home_page", ei.getHome_page());
+			xp.add("set", "this.User", "Uf91ef4c34394c/" + ei.getUuri());
+			String xmlBody = xp.getXML();
+			String put_url = domain + "baoziShop/EnterpriseInfo/" + eis.get(0).getUri();
+			String put_resultXML = HttpHelper.SendHttpRequest("put", put_url, xmlBody);
+			System.out.println(put_resultXML);
+			return 0;
+		}
+	}
 }

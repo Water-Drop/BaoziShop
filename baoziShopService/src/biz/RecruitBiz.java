@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -67,13 +69,23 @@ public class RecruitBiz {
 	}
 	
 	@Path("/addRecruitOrder")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)	
-	public String addRecruitOrder(@QueryParam("euri")String euri,@QueryParam("head_count")Integer head_count, @QueryParam("candidate_count")Integer candidate_count,
-			@QueryParam("price")Integer price, @QueryParam("position")String position, @QueryParam("salary")String salary,
-			@QueryParam("graduate_school")String graduate_school, @QueryParam("major")String major, @QueryParam("service_year")Integer service_year,
-			@QueryParam("recruit_info")String recruit_info, @QueryParam("audit_info")String audit_info, @QueryParam("interview_info")String interview_info,
-			@QueryParam("job_info")String job_info,@QueryParam("accept_count")Integer accept_count,@QueryParam("location")String location){
+	@POST
+	@Produces("text/plain;charset=utf-8")
+	@Consumes("text/plain;charset=utf-8")
+	public String addRecruitOrder(String param){
+		JSONObject json_param = JSONObject.fromObject(param);
+		String euri = json_param.getString("euri");
+		Integer head_count = json_param.getInt("head_count");
+		Integer candidate_count = json_param.getInt("candidate_count");
+		Integer price = json_param.getInt("price");
+		String position = json_param.getString("position");
+		String salary = json_param.getString("salary");
+		String recruit_info = json_param.getString("recruit_info");
+		String audit_info = json_param.getString("audit_info");
+		String interview_info = json_param.getString("interview_info");
+		String job_info = json_param.getString("job_info");
+		Integer accept_count = json_param.getInt("accept_count");
+		String location = json_param.getString("location");
 		Integer rtn = -1;
 		try {
 			RecruitOrder ro = new RecruitOrder();

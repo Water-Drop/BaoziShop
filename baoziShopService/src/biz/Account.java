@@ -24,6 +24,7 @@ public class Account {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)	
 	public String login(@QueryParam("username")String username, @QueryParam("password")String password){
+		System.out.println(username + password);
 		Integer status = -1;
 		String uuri = "";
 		String auth_token = "";

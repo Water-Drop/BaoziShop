@@ -3,7 +3,9 @@ package biz;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -125,24 +127,38 @@ public class UserBiz {
 	}
 	
 	@Path("/addEnterpriseInfo")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)	
-	public String addEnterpriseInfo(@QueryParam("uuri")String uuri,@QueryParam("name")String name, @QueryParam("address")String address,
-			@QueryParam("description")String description, @QueryParam("registered_capital")Integer registered_capital,
-			@QueryParam("employee_num")Integer employee_num, @QueryParam("phone")String phone, @QueryParam("main_business")String main_business,
-			@QueryParam("home_page")String home_page){
+	@POST
+	@Produces("text/plain;charset=utf-8")
+	@Consumes("text/plain;charset=utf-8")
+	public String addEnterpriseInfo(String param){
+		JSONObject json_param = JSONObject.fromObject(param);
+		String uuri = json_param.getString("uuri");
+		String name = json_param.getString("name");
+		String address = json_param.getString("address");
+		String description = json_param.getString("description");
+		Integer registered_capital = json_param.getInt("registered_capital");
+		Integer employee_num = json_param.getInt("employee_num");
+		String phone = json_param.getString("phone");
+		String main_business = json_param.getString("main_business");
+		String home_page = json_param.getString("home_page");
 		Integer rtn = -1;
 		try {
 			EnterpriseInfo ei = new EnterpriseInfo();
 			ei.setUuri(uuri);
 			ei.setName(name);
 			ei.setAddress(address);
+			ei.setDescription(description);
 			ei.setRegistered_capital(registered_capital);
 			ei.setEmployee_num(employee_num);
 			ei.setPhone(phone);
 			ei.setMain_business(main_business);
 			ei.setHome_page(home_page);
-			rtn = ur.addEnterpriseInfo(ei);
+			if (ur.getEnterpriseInfoByUser(uuri) == null){
+				rtn = ur.addEnterpriseInfo(ei);
+			} else {
+				rtn = ur.updateEnterpriseInfoByUser(uuri, ei);
+			}
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
